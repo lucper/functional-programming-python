@@ -108,6 +108,8 @@ def countFirsts(L):
 def mostCommonFirstChar(L):
     """ Retorna a letra mais comum entre as primeiras letras de strings em L.
     Por exemplo:
-    mostCommonFirstChar(['python', 'is', 'pythy']) === 'p'
+    >>> mostCommonFirstChar(['python', 'is', 'pythy'])
+    'p'
     """
-    return 'Z'
+    D = countFirsts(L)
+    return max(D, key=D.get)
