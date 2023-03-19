@@ -25,15 +25,32 @@ def sum(L):
     return reduce(lambda x,y: x + y, L) if L else 0
 
 def avg(L):
-    """ Returns the average of the elements in L """
-    return 0
+    """ Returns the average of the elements in L
+    For instance:
+    >>> avg([])
+    0
+    >>> avg([1])
+    1.0
+    >>> avg([1,2])
+    1.5
+    >>> avg([1,2,3])
+    2.0
+    """
+    return sum(L) / len(L) if L else 0
 
 def maxString(L):
-    """ Retorna a maior string dentre as strings em L.
-    Por exemplo: maxString(['python', 'is', 'pythy']) == 'python'
-    Se houver empate, retorna a primeira string encontrada.
+    """ Returns the largest string in L.
+    When a tie occurs, return the first string.
+    Undefined for empty lists.
+    For instance:
+    >>> maxString(['is'])
+    'is'
+    >>> maxString(['python', 'is', 'pythy'])
+    'python'
+    >>> maxString(['banana', 'python', 'is'])
+    'banana'
     """
-    return None
+    return max(L, key=len)
 
 def add2Dict(D, N, S):
     """ Insere a string S na lista associada ao inteiro N dentro
