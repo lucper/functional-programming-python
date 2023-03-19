@@ -63,6 +63,11 @@ def add2Dict(D, N, S):
     D[N] = D[N] + [S] if N in D else [S]
     return D
 
+def buildLenFreq_recur(L, D):
+    if L:
+        add2Dict(D, len(L[0]), L[0])
+        buildLenFreq_recur(L[1:], D)
+
 def buildLenFreq(L):
     """ Esta funcao constroi um dicionario que associa inteiros a listas com
     palavras daquele tamanho. Por exemplo:
@@ -76,11 +81,6 @@ def buildLenFreq(L):
     D = dict()
     buildLenFreq_recur(L, D)
     return D
-
-def buildLenFreq_recur(L, D):
-    if L:
-        add2Dict(D, len(L[0]), L[0])
-        buildLenFreq_recur(L[1:], D)
 
 def incValue(D, N):
     """Esta funcao incrementa o valor associado a chave N dentro do dicionario
@@ -101,7 +101,7 @@ def countFirsts(L):
     Note que essa funcao retorna um dicionario com cada caracter associada ao
     numero de strings que comecam com aquele caracter.
     """
-    D= dict()
+    D = dict()
     countFirsts_recur(L, D)
     return D
 
