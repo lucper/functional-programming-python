@@ -90,13 +90,20 @@ def incValue(D, N):
     D[N] = D[N] + 1 if N in D else 1
     return D
 
+def countFirsts_recur(L, D):
+    if L:
+        incValue(D, L[0][0])
+        countFirsts_recur(L[1:], D)
+
 def countFirsts(L):
     """ Conta o numero de ocorrencias do primeiro caracter de cada string em L.
     Por exemplo, countFirsts(['python', 'is', 'pythy']) === {'i': 1, 'p': 2}
     Note que essa funcao retorna um dicionario com cada caracter associada ao
     numero de strings que comecam com aquele caracter.
     """
-    return None
+    D= dict()
+    countFirsts_recur(L, D)
+    return D
 
 def mostCommonFirstChar(L):
     """ Retorna a letra mais comum entre as primeiras letras de strings em L.
