@@ -66,9 +66,21 @@ def add2Dict(D, N, S):
 def buildLenFreq(L):
     """ Esta funcao constroi um dicionario que associa inteiros a listas com
     palavras daquele tamanho. Por exemplo:
-    ins(['abc', 'xd', 'b', 'xxx']) = {1: ['b'], 2: ['xd'], 3: ['abc', 'xxx']}
+    >>> buildLenFreq([])
+    {}
+    >>> buildLenFreq(['is'])
+    {2: ['is']}
+    >>> buildLenFreq(['abc', 'xd', 'b', 'xxx'])
+    {1: ['b'], 2: ['xd'], 3: ['abc', 'xxx']}
     """
-    return None
+    D = dict()
+    buildLenFreq_recur(L, D)
+    return D
+
+def buildLenFreq_recur(L, D):
+    if L:
+        add2Dict(D, len(L[0]), L[0])
+        buildLenFreq_recur(L[1:], D)
 
 def incValue(D, N):
     """Esta funcao incrementa o valor associado a chave N dentro do dicionario
