@@ -50,7 +50,8 @@ def maxString(L):
     >>> maxString(['banana', 'python', 'is'])
     'banana'
     """
-    return max(L, key=len)
+    #return max(L, key=len)
+    return reduce(lambda acc, e: acc if len(acc) >= len(e) else e, L)
 
 def add2Dict(D, N, S):
     """ Insere a string S na lista associada ao inteiro N dentro
@@ -63,24 +64,16 @@ def add2Dict(D, N, S):
     D[N] = D[N] + [S] if N in D else [S]
     return D
 
-def buildLenFreq_recur(L, D):
-    if L:
-        add2Dict(D, len(L[0]), L[0])
-        buildLenFreq_recur(L[1:], D)
-
 def buildLenFreq(L):
-    """ Esta funcao constroi um dicionario que associa inteiros a listas com
-    palavras daquele tamanho. Por exemplo:
+    """
     >>> buildLenFreq([])
     {}
     >>> buildLenFreq(['is'])
     {2: ['is']}
     >>> buildLenFreq(['abc', 'xd', 'b', 'xxx'])
-    {1: ['b'], 2: ['xd'], 3: ['abc', 'xxx']}
+    {3: ['abc', 'xxx'], 2: ['xd'], 1: ['b']}
     """
-    D = dict()
-    buildLenFreq_recur(L, D)
-    return D
+    return reduce(lambda acc, e: add2Dict(acc, len(e), e), L, {})
 
 def incValue(D, N):
     """Esta funcao incrementa o valor associado a chave N dentro do dicionario
@@ -90,20 +83,13 @@ def incValue(D, N):
     D[N] = D[N] + 1 if N in D else 1
     return D
 
-def countFirsts_recur(L, D):
-    if L:
-        incValue(D, L[0][0])
-        countFirsts_recur(L[1:], D)
-
 def countFirsts(L):
     """ Conta o numero de ocorrencias do primeiro caracter de cada string em L.
     Por exemplo, countFirsts(['python', 'is', 'pythy']) === {'i': 1, 'p': 2}
     Note que essa funcao retorna um dicionario com cada caracter associada ao
     numero de strings que comecam com aquele caracter.
     """
-    D = dict()
-    countFirsts_recur(L, D)
-    return D
+    return reduce(lambda acc, e: incValue(acc, e[0]), L, {})
 
 def mostCommonFirstChar(L):
     """ Retorna a letra mais comum entre as primeiras letras de strings em L.
@@ -111,5 +97,5 @@ def mostCommonFirstChar(L):
     >>> mostCommonFirstChar(['python', 'is', 'pythy'])
     'p'
     """
-    D = countFirsts(L)
-    return max(D, key=D.get)
+    counts = countFirsts(L)
+    return reduce(lambda acc, e: e if counts[acc] < counts[e] else acc, counts)
