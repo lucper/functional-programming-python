@@ -39,8 +39,7 @@ def avg(L):
     return sum(L) / len(L) if L else 0
 
 def maxString(L):
-    """ Returns the largest string in L.
-    When a tie occurs, return the first string.
+    """ Returns the largest string in L. When a tie occurs, return the first string.
     Undefined for empty lists.
     For instance:
     >>> maxString(['is'])
@@ -48,10 +47,10 @@ def maxString(L):
     >>> maxString(['python', 'is', 'pythy'])
     'python'
     >>> maxString(['banana', 'python', 'is'])
-    'banana'
+    'python'
     """
     #return max(L, key=len)
-    return reduce(lambda acc, e: acc if len(acc) >= len(e) else e, L)
+    return reduce(lambda x, y: x if len(x) > len(y) else y, L)
 
 def add2Dict(D, N, S):
     """ Insere a string S na lista associada ao inteiro N dentro
@@ -65,7 +64,8 @@ def add2Dict(D, N, S):
     return D
 
 def buildLenFreq(L):
-    """
+    """ Counts number of characters in each string and maps the lengths
+    to a list of strings with that length.
     >>> buildLenFreq([])
     {}
     >>> buildLenFreq(['is'])
@@ -73,7 +73,7 @@ def buildLenFreq(L):
     >>> buildLenFreq(['abc', 'xd', 'b', 'xxx'])
     {3: ['abc', 'xxx'], 2: ['xd'], 1: ['b']}
     """
-    return reduce(lambda acc, e: add2Dict(acc, len(e), e), L, {})
+    return reduce(lambda acc, e: add2Dict(acc, len(e), e), L, dict())
 
 def incValue(D, N):
     """Esta funcao incrementa o valor associado a chave N dentro do dicionario
@@ -84,18 +84,22 @@ def incValue(D, N):
     return D
 
 def countFirsts(L):
-    """ Conta o numero de ocorrencias do primeiro caracter de cada string em L.
-    Por exemplo, countFirsts(['python', 'is', 'pythy']) === {'i': 1, 'p': 2}
-    Note que essa funcao retorna um dicionario com cada caracter associada ao
-    numero de strings que comecam com aquele caracter.
+    """ Counts number of occurrences of first character in each string from L.
+    Undefined for empty lists.
+    For instance:
+    >>> countFirsts(['python'])
+    {'p': 1}
+    >>> countFirsts(['python', 'is', 'pythy'])
+    {'p': 2, 'i': 1}
     """
     return reduce(lambda acc, e: incValue(acc, e[0]), L, {})
 
 def mostCommonFirstChar(L):
-    """ Retorna a letra mais comum entre as primeiras letras de strings em L.
-    Por exemplo:
+    """ Returns most common letter among first characters in strings.
+    For instance:
     >>> mostCommonFirstChar(['python', 'is', 'pythy'])
     'p'
     """
+    #return max(countFirsts(L))
     counts = countFirsts(L)
-    return reduce(lambda acc, e: e if counts[acc] < counts[e] else acc, counts)
+    return reduce(lambda x, y: x if counts[x] > counts[y] else y, counts)
