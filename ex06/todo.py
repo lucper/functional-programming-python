@@ -10,6 +10,8 @@ dias = ["Seg", "Ter", "Qua", "Qui", "Sex", "Sab", "Dom"]
 # The list of possible shifts: Day or Night.
 periodos = ["D", "N"]
 
+notProf = lambda p: lambda e: e[2] != p
+
 def buildTurns(profs):
     """Esta funcao recebe uma lista profs de profissionais, e constroi uma
     lista de tuplas. Cada tupla possui quatro elementos:
@@ -42,7 +44,7 @@ def firstDay(profs, prof):
     valido, a funcao precisa retornar a string 'Inexistente'
     """
     try:
-        res, *_ = dropwhile(lambda e: e[2] != prof, buildTurns(profs))
+        res, *_ = dropwhile(notProf(prof), buildTurns(profs))
         return res[0]
     except ValueError:
         return "Inexistente"
@@ -52,11 +54,11 @@ def countTurns(profs, prof):
     'prof'. Caso 'prof' nao trabalhe em algum turno, entao a funcao retorna
     zero.
     """
-    return sum(1 for _ in filterfalse(lambda e: e[2] != prof, buildTurns(profs)))
+    return sum(1 for _ in filterfalse(notProf(prof), buildTurns(profs)))
 
 def payTurns(profs, prof):
     """Esta funcao retorna o salario semanal de um profissional, assumindo que
     cada turno diurno lhe paga 1000 e cada turno noturno lhe paga 1333.
     Caso 'prof' nao trabalhe em algum turno, a funcao deve retornar zero.
     """
-    return sum(1000 if t == 'D' else 1333 for _, t, *_ in filterfalse(lambda e: e[2] != prof, buildTurns(profs)))
+    return sum(1000 if t == 'D' else 1333 for _, t, *_ in filterfalse(notProf(prof), buildTurns(profs)))
