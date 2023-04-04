@@ -52,7 +52,7 @@ def countTurns(profs, prof):
     'prof'. Caso 'prof' nao trabalhe em algum turno, entao a funcao retorna
     zero.
     """
-    return len(list(filterfalse(lambda e: e[2] != prof, buildTurns(profs))))
+    return sum(1 for _ in filterfalse(lambda e: e[2] != prof, buildTurns(profs)))
 
 def payTurns(profs, prof):
     """Esta funcao retorna o salario semanal de um profissional, assumindo que
