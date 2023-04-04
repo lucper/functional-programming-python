@@ -10,8 +10,6 @@ dias = ["Seg", "Ter", "Qua", "Qui", "Sex", "Sab", "Dom"]
 # The list of possible shifts: Day or Night.
 periodos = ["D", "N"]
 
-notProf = lambda p: lambda e: e[2] != p
-
 def buildTurns(profs):
     """Esta funcao recebe uma lista profs de profissionais, e constroi uma
     lista de tuplas. Cada tupla possui quatro elementos:
@@ -42,23 +40,44 @@ def firstDay(profs, prof):
     """Esta funcao imprime o primeiro dia em que trabalha o profissional 'prof'.
     Caso 'prof' nao esteja presente na lista profs, ou nao exista em um turno
     valido, a funcao precisa retornar a string 'Inexistente'
+    Exemplos:
+    >>> firstDay(['Ana', 'Bruno', 'Camila'], 'Ana')
+    'Seg'
+    >>> firstDay(['Ana', 'Bruno', 'Camila'], 'Camila')
+    'Ter'
+    >>> firstDay(['Ana', 'Bruno', 'Camila'], 'Douglas')
+    'Inexistente'
     """
-    try:
-        res, *_ = dropwhile(notProf(prof), buildTurns(profs))
-        return res[0]
-    except ValueError:
-        return "Inexistente"
+    notProf = lambda p: lambda e: e[2] != p
+    rest = dropwhile(notProf(prof), buildTurns(profs))
+    tup = next(rest, None)
+    return tup[0] if tup else "Inexistente"
+
 
 def countTurns(profs, prof):
     """Esta funcao retorna o numero de turnos em que trabalha o profissional
     'prof'. Caso 'prof' nao trabalhe em algum turno, entao a funcao retorna
     zero.
+    Exemplos:
+    >>> countTurns(['Ana', 'Bruno', 'Camila'], 'Ana')
+    5
+    >>> countTurns(['Ana', 'Bruno', 'Camila'], 'Camila')
+    4
+    >>> countTurns(['Ana', 'Bruno', 'Camila'], 'Douglas')
+    0
     """
-    return sum(1 for _ in filterfalse(notProf(prof), buildTurns(profs)))
+    return sum(1 for _, _, p, _ in buildTurns(profs) if p == prof)
 
 def payTurns(profs, prof):
     """Esta funcao retorna o salario semanal de um profissional, assumindo que
     cada turno diurno lhe paga 1000 e cada turno noturno lhe paga 1333.
     Caso 'prof' nao trabalhe em algum turno, a funcao deve retornar zero.
+    Exemplos:
+    >>> payTurns(['Ana', 'Bruno', 'Camila'], 'Ana')
+    5666
+    >>> payTurns(['Ana', 'Bruno', 'Camila'], 'Camila')
+    4666
+    >>> payTurns(['Ana', 'Bruno', 'Camila'], 'Douglas')
+    0
     """
-    return sum(1000 if t == 'D' else 1333 for _, t, *_ in filterfalse(notProf(prof), buildTurns(profs)))
+    return sum(1000 if t == 'D' else 1333 for _, t, p, _ in buildTurns(profs) if p == prof)
