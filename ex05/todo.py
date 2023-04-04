@@ -37,7 +37,7 @@ def factors(N):
     >>> factors(28)
     [2, 4, 7, 14]
     """
-    return [k for k in range(2, N) if N % k == 0]
+    return [k for k in range(2, (N // 2) + 1) if N % k == 0]
 
 def isPerfect(N):
     """N eh perfeito se a soma de seus fatores (exceto ele mesmo) eh N.
@@ -53,4 +53,6 @@ def isPerfect(N):
     >>> isPerfect(28)
     True
     """
-    return sum(k for k in range(1, N) if N % k == 0) == N
+    import operator
+    #return sum(k for k in range(1, N) if N % k == 0) == N
+    return reduce(operator.add, factors(N)) == N - 1
