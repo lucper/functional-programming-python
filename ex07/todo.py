@@ -155,4 +155,4 @@ def countHybernalCountries(games):
     games: DataFrame
         The table with results from Olympic Games, organized by country.
     """
-    return len(games[games['TotalW'] >= games['TotalS']])
+    return games[games['TotalW'] >= games['TotalS']].index.size
