@@ -35,7 +35,7 @@ def numGoldTotal(games):
     games: DataFrame
         The table with results from Olympic Games, organized by country.
     """
-    return sum(games[['GoldS','GoldW']].sum())
+    return games['GoldT'].sum()
 
 # Test 3
 def numSummerGoldCountry(games, country):
