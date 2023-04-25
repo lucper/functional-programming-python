@@ -42,16 +42,21 @@ def decorator_str_to_int(func):
 
     Returns:
     function: A funcao decorada com wrapper
+
+    Exemplos:
+        >>> f = decorator_str_to_int(lambda x: x + x)
+        >>> f(2)
+        4
+        >>> f('2')
+        4
+        >>> f('2w')
+        0
     """
     @functools.wraps(func)
     def wrapper(arg):
-        if type(arg) == str:
-            if arg.isdigit():
-                return func(int(arg))
-            else:
-                return func(0)
-        else:
-            return func(arg)
+        if isinstance(arg, str):
+            arg = int(arg) if arg.isdigit() else 0
+        return func(arg)
     return wrapper
 
 def decorator_hide_nums(func):
