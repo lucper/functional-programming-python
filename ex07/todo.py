@@ -103,7 +103,7 @@ def numCountriesWithMoreThanNWinterMedals(games, n):
     n: int
         The number of medals that we consider as a threshold.
     """
-    return len(games[games['TotalW'] > n])
+    return games[games['TotalW'] > n].index.size
 
 # Test 7
 def numWinterCountries(games):
