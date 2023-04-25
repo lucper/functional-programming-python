@@ -86,8 +86,7 @@ def getNthBestSummerCountry(games, n):
         The index that we want in the rank.
     """
     games = games.sort_values(by=['GoldS', 'SilverS', 'BronzeS', 'Country'], ascending=False)
-    countries = games['Country']
-    return list(countries)[n]
+    return countries.iloc[n]['Country']
 
 # Test 6
 def numCountriesWithMoreThanNWinterMedals(games, n):
