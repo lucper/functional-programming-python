@@ -119,7 +119,7 @@ def numWinterCountries(games):
     games: DataFrame
         The table with results from Olympic Games, organized by country.
     """
-    return len(games[games['GoldW'] >= games['GoldW'].mean()])
+    return games[games['GoldW'] >= games['GoldW'].mean()].index.size
 
 # Test 8
 def countGoldsWithLetter(games, c):
