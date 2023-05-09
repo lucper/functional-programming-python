@@ -1,3 +1,5 @@
+from functools import lru_cache, reduce
+
 def num_coins(N, coins):
     """O numero minimo de moedas cujos valores estao em coins que de soma N.
 
@@ -15,8 +17,16 @@ def num_coins(N, coins):
     Returns:
         integer denoting minimum number of coints that add up to x.
     """
-    # TODO: implementar essa funcao.
-    return 0
+
+    @lru_cache(maxsize=None)
+    def solve(x):
+        if x < 0:
+            return float('inf')
+        elif x  == 0:
+            return 0
+        else:
+            return min([solve(x - coin) + 1 for coin in coins])
+    return solve(N)
 
 def num_ways(N, coins):
     """Numero de formas diferentes de construir N como soma de moedas em coins.
