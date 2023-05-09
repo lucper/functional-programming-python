@@ -24,8 +24,16 @@ def all_subs(s, q):
     >>> all_subs('ababa', '')
     -1
     """
-    #TODO
-    return 0
+    if not q:
+        return -1
+    elif not s:
+        return 0
+    else:
+        occurs = 0
+        for i in range(len(s) - len(q) + 1):
+            if s[i:len(q)+i] == q:
+                occurs += 1
+        return occurs
 
 def kanguru(L):
     """Mapeia cada numero 'n' em L para '(kan)?(gu)?(ru)?' ou o proprio 'n'
@@ -43,5 +51,21 @@ def kanguru(L):
     >>> kanguru([3, 5, 7, 15, 21, 35, 105, 2])
     ['kan', 'gu', 'ru', 'kangu', 'kanru', 'guru', 'kanguru', '2']
     """
-    #TODO
-    return L
+    def num_to_str(n):
+        if n % 105 == 0:
+            return 'kanguru'
+        elif n % 35 == 0:
+            return 'guru'
+        elif n % 21 == 0:
+            return 'kanru'
+        elif n % 15 == 0:
+            return 'kangu'
+        elif n % 7 == 0:
+            return 'ru'
+        elif n % 5 == 0:
+            return 'gu'
+        elif n % 3 == 0:
+            return 'kan'
+        elif not (n % 3 == 0 and n % 5 == 0 and n % 7 == 0):
+            return str(n)
+    return [num_to_str(i) for i in L]
